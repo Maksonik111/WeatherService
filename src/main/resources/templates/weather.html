@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Service</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<form action="/weather" method="get">
+    <h1>Введите город в котором хотите узнать погоду</h1>
+    <input type="text" name="city" placeholder="Введите город" required>
+    <button type="submit">Отправить</button>
+</form>
+
+</body>
+</html>
