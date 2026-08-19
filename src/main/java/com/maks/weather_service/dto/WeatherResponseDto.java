@@ -1,8 +1,6 @@
 package com.maks.weather_service.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.Instant;
 
@@ -22,7 +20,7 @@ public class WeatherResponseDto {
     private String icon;
     private Instant lastUpdated;
 
-    WeatherResponseDto() {
+    public WeatherResponseDto() {
     }
 
 }
