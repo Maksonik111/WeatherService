@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Weather Service</title>
@@ -11,19 +11,83 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
         }
-        form {
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 400px;
             text-align: center;
+        }
+        input[type="text"] {
+            padding: 12px;
+            width: 70%;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .weather-card {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e3f2fd;
+            border-radius: 15px;
+            text-align: left;
+        }
+        .weather-card h2 {
+            margin-top: 0;
+            color: #1a237e;
+        }
+        .weather-card p {
+            margin: 8px 0;
+            color: #333;
+        }
+        .error {
+            color: red;
+            margin-top: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-<form action="/weather" method="get">
-    <h1>Введите город в котором хотите узнать погоду</h1>
-    <input type="text" name="city" placeholder="Введите город" required>
-    <button type="submit">Отправить</button>
-</form>
+<div class="container">
+    <h1>🌤️ Узнай погоду</h1>
+
+    <!-- Форма -->
+    <form action="/weather" method="get">
+        <input type="text" name="city" placeholder="Введите город" required>
+        <button type="submit">Узнать</button>
+    </form>
+
+    <!-- Ошибка -->
+    <div th:if="${error != null}" class="error" th:text="${error}"></div>
+
+    <!-- Погода -->
+    <div th:if="${weather != null}" class="weather-card">
+        <h2 th:text="${weather.city} + ', ' + ${weather.country}"></h2>
+        <p>🌡️ Температура: <span th:text="${weather.temperature}"></span>°C</p>
+        <p>🌡️ Ощущается как: <span th:text="${weather.feelsLike}"></span>°C</p>
+        <p>💧 Влажность: <span th:text="${weather.humidity}"></span>%</p>
+        <p>📊 Давление: <span th:text="${weather.pressure}"></span> гПа</p>
+        <p>🌥️ Описание: <span th:text="${weather.description}"></span></p>
+        <p>💨 Ветер: <span th:text="${weather.windSpeed}"></span> м/с</p>
+        <p>🕒 Обновлено: <span th:text="${#dates.format(weather.lastUpdated, 'dd.MM.yyyy HH:mm')}"></span></p>
+    </div>
+</div>
 
 </body>
 </html>

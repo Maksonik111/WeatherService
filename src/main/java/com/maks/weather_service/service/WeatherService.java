@@ -26,6 +26,7 @@ public class WeatherService {
 
     public WeatherService(RestTemplate restTemplate){
         this.restTemplate = restTemplate;
+        System.out.println("КОНСТРУКТОР Сервера ВЫЗВАН!");
     }
 
     public WeatherResponseDto getWeatherInCity(String city){
@@ -57,27 +58,37 @@ public class WeatherService {
     }
 
     public WeatherResponseDto convertToDto(Map body, String city){
+
         WeatherResponseDto dtoObj = new WeatherResponseDto();
 
-        Map<String, Object> main = (Map<String, Object>) body.get("main");
-        List<Map<String, Object>> weatherList = (List<Map<String, Object>>) body.get("weather");
-        Map<String, Object> weather = weatherList.get(0);
-        Map<String, Object> wind = (Map<String, Object>) body.get("wind");
-        Map<String, Object> sys = (Map<String, Object>) body.get("sys");
+        try{
 
-        dtoObj.setCity(city);
-        dtoObj.setCountry((String) sys.get("country"));
-        dtoObj.setTemperature((float) main.get("temp"));
-        dtoObj.setFeelsLike((float) main.get("feels_like"));
-        dtoObj.setHumidity((Integer) main.get("humidity"));
-        dtoObj.setPressure((Integer) main.get("pressure"));
-        dtoObj.setDescription((String) weather.get("description"));
-        dtoObj.setWindSpeed((float) wind.get("speed"));
-        dtoObj.setIcon((String) weather.get("icon"));
-        dtoObj.setLastUpdated(Instant.now());
+            Map<String, Object> main = (Map<String, Object>) body.get("main");
+            List<Map<String, Object>> weatherList = (List<Map<String, Object>>) body.get("weather");
+            Map<String, Object> weather = weatherList.get(0);
+            Map<String, Object> wind = (Map<String, Object>) body.get("wind");
+            Map<String, Object> sys = (Map<String, Object>) body.get("sys");
 
+            dtoObj.setCity(city);
+            dtoObj.setTemperature(((Number) main.get("temp")).doubleValue());
+            dtoObj.setFeelsLike(((Number) main.get("feels_like")).doubleValue());
+            dtoObj.setWindSpeed(((Number) wind.get("speed")).doubleValue());
+            dtoObj.setCountry((String) sys.get("country"));
+            dtoObj.setHumidity((Integer) main.get("humidity"));
+            dtoObj.setPressure((Integer) main.get("pressure"));
+            dtoObj.setDescription((String) weather.get("description"));
+            dtoObj.setIcon((String) weather.get("icon"));
+            dtoObj.setLastUpdated(Instant.now());
 
-        return dtoObj;
+            return dtoObj;
+        }
+        catch (Throwable ex){
+            System.out.println("Ошибка возникла при конвертации json в DTO");
+            System.out.println("Ошибка:" + ex.getMessage());
+            ex.printStackTrace();
+            return dtoObj;
+        }
+
     }
 
     

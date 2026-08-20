@@ -11,12 +11,12 @@ public class WeatherResponseDto {
 
     private String city;
     private String country;
-    private Float temperature;
-    private Float feelsLike;
+    private Double temperature;
+    private Double feelsLike;
     private Integer humidity;
     private Integer pressure;
     private String description;
-    private Float windSpeed;
+    private Double windSpeed;
     private String icon;
     private Instant lastUpdated;
 
